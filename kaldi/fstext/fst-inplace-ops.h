@@ -1,6 +1,7 @@
 #ifndef PYKALDI_FSTEXT_FST_INPLACE_OPS_H_
 #define PYKALDI_FSTEXT_FST_INPLACE_OPS_H_ 1
 
+#include <memory>
 #include "fst/fstlib.h"
 #include "fstext/lattice-weight.h"
 
@@ -30,24 +31,24 @@ void FstToBytes(const Fst<Arc> &fst, string *result) {
   FstToString<Arc>(fst, result);
 }
 
-Fst<StdArc> *BytesToStdFst(const string &s) {
-  return StringToFst<StdArc>(s);
+std::unique_ptr<Fst<StdArc>> BytesToStdFst(const string &s) {
+  return std::unique_ptr<Fst<StdArc>>(StringToFst<StdArc>(s));
 }
 
-Fst<LogArc> *BytesToLogFst(const string &s) {
-  return StringToFst<LogArc>(s);
+std::unique_ptr<Fst<LogArc>> BytesToLogFst(const string &s) {
+  return std::unique_ptr<Fst<LogArc>>(StringToFst<LogArc>(s));
 }
 
-Fst<LatticeArc> *BytesToLatticeFst(const string &s) {
-  return StringToFst<LatticeArc>(s);
+std::unique_ptr<Fst<LatticeArc>> BytesToLatticeFst(const string &s) {
+  return std::unique_ptr<Fst<LatticeArc>>(StringToFst<LatticeArc>(s));
 }
 
-Fst<CompactLatticeArc> *BytesToCompactLatticeFst(const string &s) {
-  return StringToFst<CompactLatticeArc>(s);
+std::unique_ptr<Fst<CompactLatticeArc>> BytesToCompactLatticeFst(const string &s) {
+  return std::unique_ptr<Fst<CompactLatticeArc>>(StringToFst<CompactLatticeArc>(s));
 }
 
-Fst<KwsIndexArc> *BytesToKwsIndexFst(const string &s) {
-  return StringToFst<KwsIndexArc>(s);
+std::unique_ptr<Fst<KwsIndexArc>> BytesToKwsIndexFst(const string &s) {
+  return std::unique_ptr<Fst<KwsIndexArc>>(StringToFst<KwsIndexArc>(s));
 }
 
 template <class Arc>
