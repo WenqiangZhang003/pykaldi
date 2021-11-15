@@ -43,7 +43,7 @@ class TrainingGraphCompiler(TrainingGraphCompiler):
         Returns:
           List[StdVectorFst]: The training graphs.
         """
-        ofsts = super(TrainingGraphCompiler, self).compile_graphs_fix(word_fsts)
+        ofsts = super(TrainingGraphCompiler, self).compile_graphs(word_fsts)
         return [_fst.StdVectorFst(fst) for fst in ofsts]
 
     def compile_graph_from_text(self, transcript):
