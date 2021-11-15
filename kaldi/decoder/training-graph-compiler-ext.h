@@ -24,6 +24,24 @@ class _TrainingGraphCompiler : public TrainingGraphCompiler {
                              &>(word_fsts),
         out_fsts);
   }
+
+  std::vector<std::unique_ptr<fst::VectorFst<fst::StdArc>>> _CompileGraphsFix(
+      const std::vector<fst::VectorFst<fst::StdArc> *> &word_fsts) {
+
+    std::vector<std::unique_ptr<fst::VectorFst<fst::StdArc>>> value;
+    std::vector<fst::VectorFst<fst::StdArc> *> tmp;
+
+    CompileGraphs(
+        reinterpret_cast<const std::vector<const fst::VectorFst<fst::StdArc> *>
+                             &>(word_fsts),
+        &tmp);
+
+    // Take ownership of the fst objects
+    for (auto ptr : tmp)
+      value.push_back(std::unique_ptr<fst::VectorFst<fst::StdArc>>(ptr));
+
+    return value;
+  }
 };
 
 

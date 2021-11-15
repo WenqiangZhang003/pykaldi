@@ -43,10 +43,8 @@ class TrainingGraphCompiler(TrainingGraphCompiler):
         Returns:
           List[StdVectorFst]: The training graphs.
         """
-        ofsts = super(TrainingGraphCompiler, self).compile_graphs(word_fsts)
-        for i, fst in enumerate(ofsts):
-            ofsts[i] = _fst.StdVectorFst(fst)
-        return ofsts
+        ofsts = super(TrainingGraphCompiler, self).compile_graphs_fix(word_fsts)
+        return [_fst.StdVectorFst(fst) for fst in ofsts]
 
     def compile_graph_from_text(self, transcript):
         """Compiles a single training graph from a transcript.

@@ -37,7 +37,7 @@ from "fstext/fst-construct2-ops.h":
         delta: float = default, weight_threshold: CompactLatticeWeight = default,
         state_threshold: int = default)
 
-    def `ShortestDistanceExt` as shortestdistance(
+    def `ShortestDistanceExtFix` as shortestdistance(
         fst: CompactLatticeFst, reverse: bool = default, source: int = default,
         queue_type: QueueType = default, delta: float = default)
         -> list<CompactLatticeWeight>

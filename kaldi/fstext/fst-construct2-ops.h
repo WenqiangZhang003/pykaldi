@@ -270,6 +270,17 @@ void RmEpsilonExt(const Fst<Arc> &ifst, MutableFst<Arc> *ofst,
 }
 
 template <class Arc>
+std::unique_ptr<std::vector<typename Arc::Weight>> ShortestDistanceExtFix(
+    const Fst<Arc> &fst, bool reverse = false,
+    typename Arc::StateId source = kNoStateId,
+    QueueType queue_type = AUTO_QUEUE, float delta = kDelta)
+{
+  return std::unique_ptr<std::vector<typename Arc::Weight>>(ShortestDistanceExt(
+    fst, reverse, source, queue_type, delta
+  ));
+}
+
+template <class Arc>
 std::vector<typename Arc::Weight> *ShortestDistanceExt(
     const Fst<Arc> &fst, bool reverse = false,
     typename Arc::StateId source = kNoStateId,
