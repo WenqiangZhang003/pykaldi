@@ -6,6 +6,7 @@ import os
 import platform
 import subprocess
 import sys
+import shutil
 
 import distutils.command.build
 import setuptools.command.build_ext
@@ -263,6 +264,25 @@ class build_ext(setuptools.command.build_ext.build_ext):
             sys.exit(1)
         print() # Add an empty line for cleaner output
 
+        try:
+            subprocess.check_call(" ".join([
+                "cp",
+                os.path.join(KALDI_DIR,"src/lib/*"),
+                os.path.join(BUILD_DIR, "lib/kaldi/lib/")
+                ]), shell=True
+                )
+            subprocess.check_call(" ".join([
+                "cp",
+                os.path.join(KALDI_DIR,"tools/openfst-1.6.7/lib/*.so.10"),
+                os.path.join(BUILD_DIR, "lib/kaldi/lib/")
+                ]), shell=True
+                )
+        except subprocess.CalledProcessError as err:
+            # We catch this exception to disable stack trace.
+            print(str(err), file=sys.stderr)
+            sys.exit(1)
+        print() # Add an empty line for cleaner output
+
         self.extensions = populate_extension_list()
 
         if DEBUG:
@@ -336,7 +356,15 @@ packages = find_packages(exclude=["tests.*", "tests"])
 with open(os.path.join('kaldi', '__version__.py')) as f:
     exec(f.read())
 
-setup(name = 'pykaldi',
+branch_name = ""
+try:
+    result = subprocess.run(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], capture_output=True, text=True)
+    branch_name = result.stdout
+except:
+    raise Exception("can not get branch name")
+branch_name = "pykaldi_" + branch_name.strip() 
+    
+setup(name = branch_name,
       version = __version__,
       description = 'A Python wrapper for Kaldi',
       author = 'Dogan Can, Victor Martinez, Benjamin Milde',
