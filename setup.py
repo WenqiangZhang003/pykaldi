@@ -362,7 +362,7 @@ try:
     branch_name = result.stdout
 except:
     raise Exception("can not get branch name")
-branch_name = "pykaldi_" + branch_name.strip() 
+branch_name = "pykaldi_py310_" + branch_name.strip() 
     
 setup(name = branch_name,
       version = __version__,
